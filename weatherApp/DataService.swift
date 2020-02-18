@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 import UIKit
 
 
@@ -194,9 +195,43 @@ class DataService{
     }
     
     
+    
+    func saveStoredCity(persistentContainer:NSPersistentContainer){
+        let  managedContext = persistentContainer.viewContext
+        
+        let storedCity =  NSEntityDescription.insertNewObject(forEntityName: "StoredCity", into: managedContext) as! StoredCity
+        
+        storedCity.country_code = "AU"
+        storedCity.city_code = "Geelong"
+        storedCity.name = "Geelong"
+        
+        do {
+            try managedContext.save()
+            
+        } catch{
+            managedContext.rollback()
+        }
+    
+    }
+    
+    
+    func getStoredCity(persistentContainer:NSPersistentContainer){
+        
+        let  managedContext = persistentContainer.viewContext
+        
+        let storedCityFetchRequest = NSFetchRequest<StoredCity>(entityName: "StoredCity")
+        
+        do{
+            let storedCity = try managedContext.fetch(storedCityFetchRequest)
+            print (storedCity)
+        }
+        catch{
+            print("\(error)")
+        }
+    
+    }
+    
+    
 }
 
-struct Location{
-    var country:String;
-    var city:String;
-}
+

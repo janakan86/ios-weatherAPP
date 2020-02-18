@@ -7,11 +7,14 @@
 //
 
 import UIKit
+import CoreData
 
 
 class HomeViewController: UIViewController,UITableViewDataSource {
- 
     
+    
+    var container: NSPersistentContainer!
+ 
     
     @IBOutlet weak var currentWeatherDisplay: CurrentWeatherDisplay!
     
@@ -104,6 +107,22 @@ class HomeViewController: UIViewController,UITableViewDataSource {
         )
         
     }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        switch segue.identifier! {
+            
+        //repeat for all possible segue story boards
+        case "viewSearch":
+            //cast it to the relevant ViewController
+            if let nextVC = segue.destination as? SearchViewController {
+                nextVC.container = self.container
+            }
+        default:
+            break
+        }
 }
 
 
+}

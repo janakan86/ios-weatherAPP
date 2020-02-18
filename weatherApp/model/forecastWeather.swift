@@ -50,4 +50,7 @@ struct forecastWeather : Codable {
 }
 
 
-
+struct Location{
+    var country:String;
+    var city:String;
+}
