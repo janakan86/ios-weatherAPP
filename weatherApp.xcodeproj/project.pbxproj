@@ -81,10 +81,10 @@
 				DE57461E2363BDB9001E91EA /* Main.storyboard */,
 				DE5746262363BDBB001E91EA /* LaunchScreen.storyboard */,
 				DE57462F2372921D001E91EA /* DataService.swift */,
+				DE44259923FE591E00756CD9 /* Constants.swift */,
 				DE5746242363BDBB001E91EA /* Assets.xcassets */,
 				DE57461A2363BDB9001E91EA /* AppDelegate.swift */,
 				DE5746292363BDBB001E91EA /* Info.plist */,
-				DE44259923FE591E00756CD9 /* Constants.swift */,
 			);
 			path = weatherApp;
 			sourceTree = "<group>";

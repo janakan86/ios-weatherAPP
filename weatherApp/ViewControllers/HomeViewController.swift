@@ -41,9 +41,9 @@ class HomeViewController: UIViewController,UITableViewDataSource {
                 guard let retrievedWeatherForecast = weatherForecast else{
                     return
                 }
+                self.weatherForecast.removeAll()
                 
                 if (retrievedWeatherForecast.data.count > 4){
-                    self.weatherForecast.removeAll()
                     for index in 0...4 {
                         self.weatherForecast.append( retrievedWeatherForecast.data[index])
                     }

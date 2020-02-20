@@ -22,14 +22,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         container = getPersistentContainer()
         
+        //pass the container object to the Root View Controller
         if let rootVC = window?.rootViewController as? HomeViewController {
             rootVC.container = self.container
         }
         
+        //pass the persistentContainer to the sharedDataService
+        DataService.sharedDataService.persistentContainer = self.container
+        
         
         //TODO remove - Some test code
+        DataService.sharedDataService.deleteAllStoredCitites(persistentContainer: self.container!)
         DataService.sharedDataService.saveStoredCity(persistentContainer: self.container!)
-        DataService.sharedDataService.getStoredCity(persistentContainer: self.container!)
+        DataService.sharedDataService.getStoredCity()
         
         return true
     }

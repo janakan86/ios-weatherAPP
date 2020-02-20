@@ -13,8 +13,12 @@ import UIKit
 
 class DataService{
     
-    
+    //ensure only one object of the Dataservice is shared by all
     static let sharedDataService = DataService()
+    
+    // The shared persistentContainer reference would be assigned to this at AppDelegate
+    // The value would be set to the shared object created above
+    var persistentContainer:NSPersistentContainer! = nil
     
     
     private func getURLOpenWeatherMap(location:Location, path:String)->URL?{
@@ -66,7 +70,15 @@ class DataService{
     
     func fetchCurrentWeather(successCallback: @escaping (CurrentWeather?)->()){
         
-        let url = getURLOpenWeatherMap(location: Location(country:"AU",city:"Geelong"),path:"weather")
+        let storedLocation = getStoredCity()
+        
+        guard storedLocation != nil else{
+             //"TODO a callback which redirects to the search screen"
+            return
+        }
+        
+        let url = getURLOpenWeatherMap(
+            location: Location(country:storedLocation!.country,city:storedLocation!.city), path:"weather")
         
         guard let validURL =  url else {
             return
@@ -102,7 +114,17 @@ class DataService{
     }
     
     func fetchSixteenDayForecast(successCallback: @escaping (SixteenDayForecast?)->()){
-        let url = getURLWeatherBit(location: Location(country:"AU",city:"Geelong"),path:"forecast/daily")
+        
+        let storedLocation = getStoredCity()
+        
+        guard storedLocation != nil else{
+            //"TODO a callback which redirects to the search screen"
+            return
+        }
+        
+        let url = getURLWeatherBit(
+            location:Location(country:storedLocation!.country,city:storedLocation!.city),
+                path:"forecast/daily")
         
         guard let validURL =  url else {
             return
@@ -211,20 +233,50 @@ class DataService{
     }
     
     
-    func getStoredCity(persistentContainer:NSPersistentContainer){
+    func getStoredCity()-> Location?{
+        
+        let  managedContext = self.persistentContainer.viewContext
+        
+        let storedCityFetchRequest = NSFetchRequest<StoredCity>(entityName: "StoredCity")
+        
+        do{
+            let storedCities = try managedContext.fetch(storedCityFetchRequest)
+
+             //"TODO The decision on how many cities to store is pending.Untilthen , j
+            // just return the first value."
+            
+            for city in storedCities{
+                
+                return Location(country: city.country_code, city: city.city_code)
+            }
+        }
+        catch{
+            print("\(error)")
+        }
+        
+        return nil
+    
+    }
+    
+    
+    func deleteAllStoredCitites(persistentContainer:NSPersistentContainer){
         
         let  managedContext = persistentContainer.viewContext
         
         let storedCityFetchRequest = NSFetchRequest<StoredCity>(entityName: "StoredCity")
         
-        do{
-            let storedCity = try managedContext.fetch(storedCityFetchRequest)
-            print (storedCity)
+        do {
+            // as the storage is unlikely store many locations, it is reasonable to loop and delete
+            let storedCities = try managedContext.fetch(storedCityFetchRequest)
+            
+            for city in storedCities{
+                managedContext.delete(city)
+            }
+            try managedContext.save()
+            
+        } catch{
+            managedContext.rollback()
         }
-        catch{
-            print("\(error)")
-        }
-    
     }
     
     
