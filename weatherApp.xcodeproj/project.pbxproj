@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DE44259A23FE591E00756CD9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE44259923FE591E00756CD9 /* Constants.swift */; };
 		DE57461B2363BDB9001E91EA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE57461A2363BDB9001E91EA /* AppDelegate.swift */; };
 		DE5746202363BDB9001E91EA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE57461E2363BDB9001E91EA /* Main.storyboard */; };
 		DE5746232363BDB9001E91EA /* weatherApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DE5746212363BDB9001E91EA /* weatherApp.xcdatamodeld */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DE44259923FE591E00756CD9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		DE5746172363BDB9001E91EA /* weatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = weatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE57461A2363BDB9001E91EA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DE57461F2363BDB9001E91EA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 				DE5746242363BDBB001E91EA /* Assets.xcassets */,
 				DE57461A2363BDB9001E91EA /* AppDelegate.swift */,
 				DE5746292363BDBB001E91EA /* Info.plist */,
+				DE44259923FE591E00756CD9 /* Constants.swift */,
 			);
 			path = weatherApp;
 			sourceTree = "<group>";
@@ -196,6 +199,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE5746232363BDB9001E91EA /* weatherApp.xcdatamodeld in Sources */,
+				DE44259A23FE591E00756CD9 /* Constants.swift in Sources */,
 				DE88DCE1237BEBAC008A207D /* forecastWeather.swift in Sources */,
 				DE57461B2363BDB9001E91EA /* AppDelegate.swift in Sources */,
 				DED6D4E523F51D1B00BBC026 /* SearchViewController.swift in Sources */,
