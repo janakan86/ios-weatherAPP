@@ -12,13 +12,9 @@ import UIKit
 
 
 class DataService{
+    
+    
     static let sharedDataService = DataService()
-    
-    fileprivate let baseURLString = "http://api.openweathermap.org/data/2.5/weather"
-    
-    private func getHomeLocation()->String{
-        return "Geelong"
-    }
     
     
     private func getURLOpenWeatherMap(location:Location, path:String)->URL?{
@@ -30,7 +26,7 @@ class DataService{
         
         weatherURL.queryItems = [
             URLQueryItem(name:"q",value:(location.city + "," + location.country)),
-            URLQueryItem(name:"APPID",value:"<<GET KEY BY REGISTERING AT OPENWEATHER MAP"),
+            URLQueryItem(name:"APPID",value:Constants.API.openweatherMapKey),
             URLQueryItem(name:"units",value:"metric")
         ]
         
@@ -51,7 +47,7 @@ class DataService{
         
         weatherURL.queryItems = [
             URLQueryItem(name:"city",value:(location.city + "," + location.country)),
-            URLQueryItem(name:"key",value:"<<GET KEY BY REGISTERING AT WEATHER BIT"),
+            URLQueryItem(name:"key",value:Constants.API.weatherbitKey),
             URLQueryItem(name:"units",value:"M")
         ]
         
