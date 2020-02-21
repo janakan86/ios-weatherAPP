@@ -32,8 +32,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         //TODO remove - Some test code
-        DataService.sharedDataService.deleteAllStoredCitites(persistentContainer: self.container!)
-        DataService.sharedDataService.saveStoredCity(persistentContainer: self.container!)
+        DataService.sharedDataService.deleteAllStoredCitites()
+        DataService.sharedDataService.saveStoredCity()
         DataService.sharedDataService.getStoredCity()
         
         return true

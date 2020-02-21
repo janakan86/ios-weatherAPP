@@ -214,8 +214,8 @@ class DataService{
     
     
     
-    func saveStoredCity(persistentContainer:NSPersistentContainer){
-        let  managedContext = persistentContainer.viewContext
+    func saveStoredCity(){
+        let  managedContext = self.persistentContainer.viewContext
         
         let storedCity =  NSEntityDescription.insertNewObject(forEntityName: "StoredCity", into: managedContext) as! StoredCity
         
@@ -259,9 +259,9 @@ class DataService{
     }
     
     
-    func deleteAllStoredCitites(persistentContainer:NSPersistentContainer){
+    func deleteAllStoredCitites(){
         
-        let  managedContext = persistentContainer.viewContext
+        let  managedContext = self.persistentContainer.viewContext
         
         let storedCityFetchRequest = NSFetchRequest<StoredCity>(entityName: "StoredCity")
         
