@@ -64,6 +64,28 @@ class DataService{
     }
     
     
+    private func getURLAccuWeatherForLocations(searchWord:String,path:String)->URL?{
+        var weatherURL = URLComponents()
+        
+        weatherURL.scheme = "https"
+        weatherURL.host = "dataservice.accuweather.com"
+        weatherURL.path = "/locations/v1/"+path
+        
+        weatherURL.queryItems = [
+            URLQueryItem(name:"q",value:searchWord),
+            URLQueryItem(name:"apikey",value:Constants.API.accuweatherKey),
+            URLQueryItem(name:"language",value:"en-us")
+        ]
+        
+        guard let validURL =  weatherURL.url else {
+            return nil
+        }
+        
+        return validURL
+        
+    }
+    
+    
     func fetchthreeHourlyForecast(){
         
     }
@@ -148,6 +170,49 @@ class DataService{
                     
                         let weatherForecast  = try JSONDecoder().decode(SixteenDayForecast.self, from: validData)
                         successCallback(weatherForecast)
+                        
+                    }
+                    catch let SerializationError{
+                        print(SerializationError.localizedDescription)
+                    }
+                    
+                }
+        }).resume()
+        
+        
+    }
+    
+    
+    func fetchLocations(successCallback: @escaping ([accuweatherCity]?)->()){
+        
+        //"TODO remove hardcoded value
+        let url = getURLAccuWeatherForLocations(
+            searchWord:"Geelon",
+            path:"cities/autocomplete")
+
+        guard let validURL =  url else {
+            return
+        }
+        
+        URLSession.shared.dataTask(with: validURL, completionHandler:
+            
+            //implemenation for closure
+            { (data, urlResponse, error ) in
+                
+                if (urlResponse as? HTTPURLResponse) != nil {
+                    
+                    //guard - check for errors.error should be null and data should be present
+                    guard let validData = data, error == nil else{
+                        //print (error!.localizedDescription)
+                        return
+                    }
+                    
+                    //process received data
+                    do{
+                        
+                        let retrivedCities  = try JSONDecoder().decode([accuweatherCity].self, from: validData)
+                        print(retrivedCities)
+                        successCallback(retrivedCities)
                         
                     }
                     catch let SerializationError{

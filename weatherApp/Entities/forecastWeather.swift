@@ -50,6 +50,19 @@ struct forecastWeather : Codable {
 }
 
 
+//location autocompl -  http://dataservice.accuweather.com/locations/v1/cities/autocomplete
+struct accuweatherCity : Codable {
+    var LocalizedName : String
+    var Country : accuweatherCountry
+    
+}
+
+struct accuweatherCountry : Codable {
+    var ID: String
+    var LocalizedName : String
+}
+
+
 struct Location{
     var country:String;
     var city:String;

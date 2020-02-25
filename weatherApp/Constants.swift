@@ -14,6 +14,7 @@ struct Constants {
     struct API {
         static let weatherbitKey = "<<GET KEY BY REGISTERING AT WeatherBit>>"
         static let openweatherMapKey = "<<GET KEY BY REGISTERING AT OpenWeatherMap>"
+        static let accuweatherKey = "<<GET KEY BY REGISTERING AT AccuWeather>"
     }
     
 }

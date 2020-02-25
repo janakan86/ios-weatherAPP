@@ -36,7 +36,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DataService.sharedDataService.saveStoredCity()
         DataService.sharedDataService.getStoredCity()
         
+        ////TODO remove and move to tests
+        testLocationsSearch()
+        
         return true
+    }
+    
+    //TODO remove and move to tests
+    func testLocationsSearch(){
+        DataService.sharedDataService.fetchLocations(
+            
+            successCallback:{ (citylocations:[accuweatherCity]?)->() in
+                
+                guard let retrievedCitylocations = citylocations else{
+                    return
+                }
+                
+                for location in retrievedCitylocations {
+                    print(location)
+                }
+                
+        }
+        )
+    
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
