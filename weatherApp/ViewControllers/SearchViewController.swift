@@ -16,9 +16,9 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     
-    let data = [ "Geelong" , "Melbourne", "Sydney","Brisbane"]
+   // let data = [ "Geelong" , "Melbourne", "Sydney","Brisbane"]
     
-    var filteredData:[String]!
+    var filteredData:[String]! = []
     
     var searchController:UISearchController!
     
@@ -28,7 +28,7 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        filteredData = data
+       // filteredData = data
         
         //nil forces results to be shown in the same view controller
         searchController = UISearchController(searchResultsController:nil)
@@ -56,15 +56,40 @@ class SearchViewController: UIViewController {
             return
         }
         
-        self.filteredData = data.filter{$0.replacingOccurrences(of:" ",with:"").lowercased().contains(searchText.replacingOccurrences(of:" ",with:"").lowercased())}
-        
-        tableView.reloadData()
+        if !searchText.isEmpty{
+            if (searchText.count > 1 ){
+                fetchLocations(searchword:searchText)
+            }
+            self.tableView.reloadData()
+        }
     
     }
     
-    func restoreCurrentDataSource(){
-        filteredData = data
+    func resetCurrentDataSource(){
+        self.filteredData.removeAll()
         tableView.reloadData()
+    }
+    
+    func fetchLocations(searchword:String){
+        DataService.sharedDataService.fetchLocations(
+            
+            successCallback:{ (citylocations:[accuweatherCity]?)->() in
+
+                guard let retrievedCitylocations = citylocations, let unwrappedFilteredData = self.filteredData else{
+                    return
+                }
+                
+                self.filteredData.removeAll()
+                
+                for location in retrievedCitylocations {
+                    self.filteredData.append(location.LocalizedName)
+                    //print(location.LocalizedName)
+                }
+
+                
+        },searchWord:searchword
+        )
+        
     }
     
 
@@ -84,31 +109,46 @@ extension SearchViewController : UISearchResultsUpdating {
 extension SearchViewController: UISearchBarDelegate {
    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchController.isActive = false
         
         if let searchText = searchBar.text {
-            filterCurrentDataSource(searchText: searchText)
+            self.filterCurrentDataSource(searchText: searchText)
         }
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchController.isActive = false
+        resetCurrentDataSource()
+        searchBar.text = nil
         
-        if let searchText = searchBar.text, !searchText.isEmpty {
-            restoreCurrentDataSource()
+        
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+
+        if(searchText.count>2){
+            self.filterCurrentDataSource(searchText: searchText)
         }
-        
+
     }
 }
 
 extension SearchViewController : UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       return filteredData.count
+      return self.filteredData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-        cell.textLabel?.text = filteredData[indexPath.row]
+        
+        
+        guard let unwrappedFilteredData = self.filteredData else{
+            return cell
+        }
+    
+        if unwrappedFilteredData.count > 0 {
+            cell.textLabel?.text = self.filteredData[indexPath.row]
+        }
+        
         return cell
     }
     

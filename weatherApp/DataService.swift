@@ -183,11 +183,10 @@ class DataService{
     }
     
     
-    func fetchLocations(successCallback: @escaping ([accuweatherCity]?)->()){
+    func fetchLocations(successCallback: @escaping ([accuweatherCity]?)->(),searchWord:String){
         
-        //"TODO remove hardcoded value
         let url = getURLAccuWeatherForLocations(
-            searchWord:"Geelon",
+            searchWord:searchWord,
             path:"cities/autocomplete")
 
         guard let validURL =  url else {
@@ -211,7 +210,7 @@ class DataService{
                     do{
                         
                         let retrivedCities  = try JSONDecoder().decode([accuweatherCity].self, from: validData)
-                        print(retrivedCities)
+                        //print(retrivedCities)
                         successCallback(retrivedCities)
                         
                     }

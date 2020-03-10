@@ -12,9 +12,9 @@ import Foundation
 struct Constants {
     
     struct API {
-        static let weatherbitKey = "<<GET KEY BY REGISTERING AT WeatherBit>>"
-        static let openweatherMapKey = "<<GET KEY BY REGISTERING AT OpenWeatherMap>"
-        static let accuweatherKey = "<<GET KEY BY REGISTERING AT AccuWeather>"
+        static let weatherbitKey = "a0e6912217bf473ba2f8029f511d73eb"
+        static let openweatherMapKey = "030078a92c978a1b675533f3dd0b0ad7"
+        static let accuweatherKey = "aBNXFdnHCccblsxFr8AkkVkbnfElMntE"
     }
     
 }

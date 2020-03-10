@@ -37,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DataService.sharedDataService.getStoredCity()
         
         ////TODO remove and move to tests
-        testLocationsSearch()
+        //testLocationsSearch()
         
         return true
     }
@@ -56,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     print(location)
                 }
                 
-        }
+        }, searchWord:"Geel"
         )
     
     }
