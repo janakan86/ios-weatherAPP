@@ -16,8 +16,6 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     
-   // let data = [ "Geelong" , "Melbourne", "Sydney","Brisbane"]
-    
     var filteredData:[String]! = []
     
     var searchController:UISearchController!
@@ -35,8 +33,6 @@ class SearchViewController: UIViewController {
         searchController.searchResultsUpdater = self
         //searchContainerView.addSubview(searchController.searchBar)
         
-       
-        
 
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.delegate = self
@@ -51,23 +47,18 @@ class SearchViewController: UIViewController {
     
     
     func filterCurrentDataSource (searchText:String){
-        
-        guard searchText.count > 0 else{
+        guard searchText.count > 2 else{
             return
         }
         
-        if !searchText.isEmpty{
-            if (searchText.count > 1 ){
-                fetchLocations(searchword:searchText)
-            }
-            self.tableView.reloadData()
-        }
-    
+        fetchLocations(searchword:searchText)
+        self.tableView.reloadData()
+        
     }
     
     func resetCurrentDataSource(){
         self.filteredData.removeAll()
-        tableView.reloadData()
+        self.tableView.reloadData()
     }
     
     func fetchLocations(searchword:String){
@@ -75,7 +66,7 @@ class SearchViewController: UIViewController {
             
             successCallback:{ (citylocations:[accuweatherCity]?)->() in
 
-                guard let retrievedCitylocations = citylocations, let unwrappedFilteredData = self.filteredData else{
+                guard let retrievedCitylocations = citylocations else{
                     return
                 }
                 
@@ -83,11 +74,14 @@ class SearchViewController: UIViewController {
                 
                 for location in retrievedCitylocations {
                     self.filteredData.append(location.LocalizedName)
-                    //print(location.LocalizedName)
                 }
-
                 
-        },searchWord:searchword
+        },
+            errorCallback:{ (error:Error?)->() in
+               self.resetCurrentDataSource()
+                
+        },
+            searchWord:searchword
         )
         
     }
@@ -97,11 +91,17 @@ class SearchViewController: UIViewController {
 
 
 extension SearchViewController : UISearchResultsUpdating {
+    
     //a function in the UISearchResultsUpdating protocol
     func updateSearchResults(for searchController: UISearchController) {
-        if let searchText = searchController.searchBar.text{
-            filterCurrentDataSource(searchText: searchText)
-        }
+         //We are using searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
+         //kick off filtering. Therefore this is commented out
+        /*
+             if let searchText = searchController.searchBar.text{
+                filterCurrentDataSource(searchText: searchText)
+            }
+         
+         */
     }
 }
 
@@ -124,8 +124,7 @@ extension SearchViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-
-        if(searchText.count>2){
+        if(searchText.count > 2){
             self.filterCurrentDataSource(searchText: searchText)
         }
 
@@ -160,8 +159,5 @@ extension SearchViewController : UITableViewDataSource, UITableViewDelegate{
         alertController.addAction(okAction)
         present(alertController, animated:true,completion:nil)
     }
-    
-    
-    
     
 }

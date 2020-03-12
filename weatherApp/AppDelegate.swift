@@ -56,7 +56,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     print(location)
                 }
                 
-        }, searchWord:"Geel"
+        },
+            errorCallback:{ (error:Error?)->() in
+                print(error)
+                
+        }
+            , searchWord:"Geel"
         )
     
     }

@@ -183,7 +183,9 @@ class DataService{
     }
     
     
-    func fetchLocations(successCallback: @escaping ([accuweatherCity]?)->(),searchWord:String){
+    func fetchLocations(successCallback: @escaping ([accuweatherCity]?)->(),
+                        errorCallback:  @escaping  (Error)->(),
+                        searchWord:String){
         
         let url = getURLAccuWeatherForLocations(
             searchWord:searchWord,
@@ -202,7 +204,9 @@ class DataService{
                     
                     //guard - check for errors.error should be null and data should be present
                     guard let validData = data, error == nil else{
-                        //print (error!.localizedDescription)
+                        if(error != nil){
+                            errorCallback(error!)
+                        }
                         return
                     }
                     
@@ -210,12 +214,15 @@ class DataService{
                     do{
                         
                         let retrivedCities  = try JSONDecoder().decode([accuweatherCity].self, from: validData)
-                        //print(retrivedCities)
+                        
+                       
                         successCallback(retrivedCities)
+                        
                         
                     }
                     catch let SerializationError{
-                        print(SerializationError.localizedDescription)
+                        print(SerializationError)
+                        errorCallback(SerializationError)
                     }
                     
                 }
