@@ -52,7 +52,7 @@ class SearchViewController: UIViewController {
         }
         
         fetchLocations(searchword:searchText)
-        self.tableView.reloadData()
+        //self.tableView.reloadData()
         
     }
     
@@ -72,9 +72,15 @@ class SearchViewController: UIViewController {
                 
                 self.filteredData.removeAll()
                 
+                
                 for location in retrievedCitylocations {
                     self.filteredData.append(location.LocalizedName)
                 }
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+                
                 
         },
             errorCallback:{ (error:Error?)->() in
