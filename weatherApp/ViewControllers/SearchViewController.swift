@@ -16,7 +16,7 @@ class SearchViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     
-    var filteredData:[String]! = []
+    var filteredData:[RetrievedLocation]! = []
     
     var searchController:UISearchController!
     
@@ -73,8 +73,9 @@ class SearchViewController: UIViewController {
                 self.filteredData.removeAll()
                 
                 
-                for location in retrievedCitylocations {
-                    self.filteredData.append(location.LocalizedName)
+                for city in retrievedCitylocations {
+
+                   self.filteredData.append( RetrievedLocation(city:city.LocalizedName,countryCode:city.Country.ID,                          countryName: city.Country.LocalizedName))
                 }
                 
                 DispatchQueue.main.async {
@@ -151,7 +152,8 @@ extension SearchViewController : UITableViewDataSource, UITableViewDelegate{
         }
     
         if unwrappedFilteredData.count > 0 {
-            cell.textLabel?.text = self.filteredData[indexPath.row]
+            cell.textLabel?.text =  self.filteredData[indexPath.row].city + " - " +
+                                    self.filteredData[indexPath.row].countryName
         }
         
         return cell
@@ -164,6 +166,12 @@ extension SearchViewController : UITableViewDataSource, UITableViewDelegate{
         let okAction = UIAlertAction(title:"OK",style: .default, handler:nil)
         alertController.addAction(okAction)
         present(alertController, animated:true,completion:nil)
+        
+        
+        DataService.sharedDataService.deleteAllStoredCitites()
+        DataService.sharedDataService.saveStoredCity(location : filteredData[indexPath.row])
+        
+
     }
     
 }

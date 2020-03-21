@@ -21,7 +21,7 @@ class DataService{
     var persistentContainer:NSPersistentContainer! = nil
     
     
-    private func getURLOpenWeatherMap(location:Location, path:String)->URL?{
+    private func getURLOpenWeatherMap(location:SearchLocation, path:String)->URL?{
         var weatherURL = URLComponents()
         
         weatherURL.scheme = "https"
@@ -42,7 +42,7 @@ class DataService{
     
     }
     
-    private func getURLWeatherBit(location:Location,path:String)->URL?{
+    private func getURLWeatherBit(location:SearchLocation,path:String)->URL?{
         var weatherURL = URLComponents()
         
         weatherURL.scheme = "https"
@@ -100,7 +100,7 @@ class DataService{
         }
         
         let url = getURLOpenWeatherMap(
-            location: Location(country:storedLocation!.country,city:storedLocation!.city), path:"weather")
+            location: SearchLocation(country:storedLocation!.country,city:storedLocation!.city), path:"weather")
         
         guard let validURL =  url else {
             return
@@ -145,7 +145,7 @@ class DataService{
         }
         
         let url = getURLWeatherBit(
-            location:Location(country:storedLocation!.country,city:storedLocation!.city),
+            location:SearchLocation(country:storedLocation!.country,city:storedLocation!.city),
                 path:"forecast/daily")
         
         guard let validURL =  url else {
@@ -285,14 +285,14 @@ class DataService{
     
     
     
-    func saveStoredCity(){
+    func saveStoredCity(location : RetrievedLocation){
         let  managedContext = self.persistentContainer.viewContext
         
         let storedCity =  NSEntityDescription.insertNewObject(forEntityName: "StoredCity", into: managedContext) as! StoredCity
         
-        storedCity.country_code = "AU"
-        storedCity.city_code = "Geelong"
-        storedCity.name = "Geelong"
+        storedCity.country_code = location.countryCode
+        storedCity.city_code = location.city
+        storedCity.name = location.city
         
         do {
             try managedContext.save()
@@ -304,7 +304,7 @@ class DataService{
     }
     
     
-    func getStoredCity()-> Location?{
+    func getStoredCity()-> SearchLocation?{
         
         let  managedContext = self.persistentContainer.viewContext
         
@@ -313,12 +313,12 @@ class DataService{
         do{
             let storedCities = try managedContext.fetch(storedCityFetchRequest)
 
-             //"TODO The decision on how many cities to store is pending.Untilthen , j
+             //"TODO The decision on how many cities to store is pending.Until then,
             // just return the first value."
             
             for city in storedCities{
                 
-                return Location(country: city.country_code, city: city.city_code)
+                return SearchLocation(country: city.country_code, city: city.city_code)
             }
         }
         catch{

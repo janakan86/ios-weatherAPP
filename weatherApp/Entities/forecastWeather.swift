@@ -63,7 +63,15 @@ struct accuweatherCountry : Codable {
 }
 
 
-struct Location{
+//generic
+struct SearchLocation{
     var country:String;
     var city:String;
 }
+
+struct RetrievedLocation{
+    var city:String;
+    var countryCode:String;
+    var countryName:String;
+}
+
