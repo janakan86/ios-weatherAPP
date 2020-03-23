@@ -20,6 +20,7 @@ class CurrentWeatherDisplay: UIView {
     
     @IBOutlet var contentView: UIView!
     
+    @IBOutlet var cityLabel: UILabel!
     @IBOutlet var descriptionLabel: UILabel!
     @IBOutlet var temperatureLabel: UILabel!
     @IBOutlet var humidityLabel: UILabel!
@@ -62,6 +63,7 @@ class CurrentWeatherDisplay: UIView {
                 }
                 DispatchQueue.main.async {
 
+                    self.cityLabel.text = retrievedWeather.name
                     self.descriptionLabel.text = retrievedWeather.weather[0].description
                     self.humidityLabel.text = String(format:"%.0f",retrievedWeather.main.humidity ??  0) + " %"
                     self.temperatureLabel.text = String(format:"%.0f",retrievedWeather.main.temp ??  0) + " °c"

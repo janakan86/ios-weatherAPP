@@ -30,41 +30,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //pass the persistentContainer to the sharedDataService
         DataService.sharedDataService.persistentContainer = self.container
         
-        
-        //TODO remove - Some test code
-        DataService.sharedDataService.deleteAllStoredCitites()
-        DataService.sharedDataService.saveStoredCity()
-        DataService.sharedDataService.getStoredCity()
-        
-        ////TODO remove and move to tests
-        //testLocationsSearch()
-        
         return true
     }
     
-    //TODO remove and move to tests
-    func testLocationsSearch(){
-        DataService.sharedDataService.fetchLocations(
-            
-            successCallback:{ (citylocations:[accuweatherCity]?)->() in
-                
-                guard let retrievedCitylocations = citylocations else{
-                    return
-                }
-                
-                for location in retrievedCitylocations {
-                    print(location)
-                }
-                
-        },
-            errorCallback:{ (error:Error?)->() in
-                print(error)
-                
-        }
-            , searchWord:"Geel"
-        )
-    
-    }
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
