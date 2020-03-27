@@ -46,7 +46,7 @@
         <!--Home View Controller-->
         <scene sceneID="VoA-2u-0Rz">
             <objects>
-                <viewController id="tsw-4O-Bgx" customClass="HomeViewController" customModule="weatherApp" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="homeVC" id="tsw-4O-Bgx" customClass="HomeViewController" customModule="weatherApp" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="adD-He-ZA5">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

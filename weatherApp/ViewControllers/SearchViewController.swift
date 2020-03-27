@@ -93,6 +93,15 @@ class SearchViewController: UIViewController {
         
     }
     
+    
+    func navigateToHome(){
+        let storyBoard = UIStoryboard(name:"Main", bundle: nil)
+        
+        //identifier is the storyboard ID
+        let vc = storyBoard.instantiateViewController(withIdentifier: "homeVC")
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
 
 }
 
@@ -160,16 +169,15 @@ extension SearchViewController : UITableViewDataSource, UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let alertController = UIAlertController(title:"Selection",message:"Selected: \(filteredData[indexPath.row])",preferredStyle: .alert)
         
         searchController.isActive = false
-        let okAction = UIAlertAction(title:"OK",style: .default, handler:nil)
-        alertController.addAction(okAction)
-        present(alertController, animated:true,completion:nil)
         
-        
+        //store the newly selected city as the default
         DataService.sharedDataService.deleteAllStoredCitites()
         DataService.sharedDataService.saveStoredCity(location : filteredData[indexPath.row])
+        
+        //navigate to home screen with the new city selected
+        navigateToHome()
         
 
     }
