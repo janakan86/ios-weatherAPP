@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 
-class HomeViewController: UIViewController,UITableViewDataSource {
+class HomeViewController: UIViewController,UITableViewDataSource, UITableViewDelegate {
     
     
     var container: NSPersistentContainer!
@@ -21,7 +21,8 @@ class HomeViewController: UIViewController,UITableViewDataSource {
     @IBOutlet var forecastTableView: UITableView!
     
     var weatherForecast: [WeatherForecastData] = []
-    
+
+    let cellSpacingHeight: CGFloat = 10
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,15 +58,21 @@ class HomeViewController: UIViewController,UITableViewDataSource {
         )
     }
     
+    //delegate method
+    // Set the spacing between sections
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return cellSpacingHeight
+    }
+    
     
     
     //data source methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let idx: Int = indexPath.row
+        let idx: Int = indexPath.section
         
         //  let cell = UITableViewCell()
         let cell = tableView.dequeueReusableCell(withIdentifier: "currentWeatherPrototype",for:indexPath) as! currentWeatherPrototypeCell
@@ -86,7 +93,7 @@ class HomeViewController: UIViewController,UITableViewDataSource {
     
     //return the number of sections
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 5
     }
     
     //end of data source methods
