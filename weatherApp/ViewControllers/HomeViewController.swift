@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 
-class HomeViewController: UIViewController,UITableViewDataSource, UITableViewDelegate {
+class HomeViewController: UIViewController {
     
     
     var container: NSPersistentContainer!
@@ -58,48 +58,6 @@ class HomeViewController: UIViewController,UITableViewDataSource, UITableViewDel
         )
     }
     
-    //delegate method
-    // Set the spacing between sections
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return cellSpacingHeight
-    }
-    
-    
-    
-    //data source methods
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let idx: Int = indexPath.section
-        
-        //  let cell = UITableViewCell()
-        let cell = tableView.dequeueReusableCell(withIdentifier: "currentWeatherPrototype",for:indexPath) as! currentWeatherPrototypeCell
-        
-        if self.weatherForecast.count == 0 {
-            return cell
-        }
-        
-        cell.minimumTemperature?.text = String(format:"%.0f",weatherForecast[idx].min_temp ??  0) + " °c"
-        
-        cell.maximumTemperature?.text = String(format:"%.0f",weatherForecast[idx].max_temp ??  0) + " °c"
-
-        let iconName = weatherForecast[idx].weather.icon
-        self.loadIcon(weatherIconName: iconName,cell:cell)
-        
-        return cell
-    }
-    
-    //return the number of sections
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 5
-    }
-    
-    //end of data source methods
-    
-    
-    
     private func loadIcon(weatherIconName:String, cell:currentWeatherPrototypeCell){
         //fetch the icon
         
@@ -129,7 +87,47 @@ class HomeViewController: UIViewController,UITableViewDataSource, UITableViewDel
         default:
             break
         }
+    }
+
+
 }
 
 
+extension HomeViewController : UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let idx: Int = indexPath.section
+        
+        //  let cell = UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "currentWeatherPrototype",for:indexPath) as! currentWeatherPrototypeCell
+        
+        if self.weatherForecast.count == 0 {
+            return cell
+        }
+        
+        cell.minimumTemperature?.text = String(format:"%.0f",weatherForecast[idx].min_temp ??  0) + " °c"
+        
+        cell.maximumTemperature?.text = String(format:"%.0f",weatherForecast[idx].max_temp ??  0) + " °c"
+        
+        let iconName = weatherForecast[idx].weather.icon
+        self.loadIcon(weatherIconName: iconName,cell:cell)
+        
+        return cell
+    }
+    
+    //return the number of sections
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 5
+    }
+}
+
+
+extension HomeViewController : UITableViewDelegate{
+    // Set the spacing between sections
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return cellSpacingHeight
+    }
 }
